@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.junit.Assert.*;
-
 public class SuccessPage {
     private WebDriver driver;
 
@@ -15,10 +13,10 @@ public class SuccessPage {
         this.driver = driver;
     }
 
-    public void checkOrderIsProcessed() {
+    public String getSuccessModalWindowText() {
         new WebDriverWait(driver, 3).until(driver -> (driver.findElement(successModalWindow).isEnabled()));
-        String actual = driver.findElement(successModalWindow).getText();
-        assertTrue("упс", actual != null && actual.startsWith("Заказ оформлен"));
+        return driver.findElement(successModalWindow).getText();
+
     }
 
 }

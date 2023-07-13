@@ -73,55 +73,39 @@ public class MainPage {
         return driver.findElement(text).getText();
     }
 
-    public void getResponseHowMuchCostHowToPay() {
-        String expected = "Сутки — 400 рублей. Оплата курьеру — наличными или картой.";
-        String actual = getResponse(howMuchCostHowToPayHeading, responseHowMuchCostHowToPayPanel);
-        assertEquals(expected, actual);
+    public String getResponseHowMuchCostHowToPay() {
+        return getResponse(howMuchCostHowToPayHeading, responseHowMuchCostHowToPayPanel);
     }
 
-    public void getResponseSeveralScooters() {
-        String expected = "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.";
-        String actual = getResponse(severalScootersHeading, responseSeveralScootersPanel);
-        assertEquals(expected, actual);
+    public String getResponseSeveralScooters() {
+        return getResponse(severalScootersHeading, responseSeveralScootersPanel);
     }
 
-    public void getResponseRentalTimeCalculation() {
-        String expected = "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.";
-        String actual = getResponse(rentalTimeCalculationHeading, responseRentalTimeCalculationPanel);
-        assertEquals(expected, actual);
+    public String getResponseRentalTimeCalculation() {
+        return getResponse(rentalTimeCalculationHeading, responseRentalTimeCalculationPanel);
 
     }
 
-    public void getResponseOrderForToday() {
-        String expected = "Только начиная с завтрашнего дня. Но скоро станем расторопнее.";
-        String actual = getResponse(orderForTodayHeading, responseOrderForTodayPanel);
-        assertEquals(expected, actual);
+    public String getResponseOrderForToday() {
+        return getResponse(orderForTodayHeading, responseOrderForTodayPanel);
 
     }
 
-    public void getResponseExtendOrderReturnEarlier() {
-        String expected = "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.";
-        String actual = getResponse(extendOrderReturnEarlierHeading, responseExtendOrderReturnEarlierPanel);
-        assertEquals(expected, actual);
+    public String getResponseExtendOrderReturnEarlier() {
+        return getResponse(extendOrderReturnEarlierHeading, responseExtendOrderReturnEarlierPanel);
     }
 
-    public void getResponseChargerForScooter() {
-        String expected = "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.";
-        String actual = getResponse(chargerForScooterHeading, responseChargerForScooterPanel);
-        assertEquals(expected, actual);
+    public String getResponseChargerForScooter() {
+        return getResponse(chargerForScooterHeading, responseChargerForScooterPanel);
     }
 
-    public void getResponseCancellations() {
-        String expected = "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.";
-        String actual = getResponse(cancellationsHeading, responseCancellationsPanel);
-        assertEquals(expected, actual);
+    public String getResponseCancellations() {
+        return getResponse(cancellationsHeading, responseCancellationsPanel);
 
     }
 
-    public void getResponseOutsideMoscow() {
-        String expected = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
-        String actual = getResponse(outsideMoscowHeading, responseOutsideMoscowPanel);
-        assertEquals(expected, actual);
+    public String getResponseOutsideMoscow() {
+        return getResponse(outsideMoscowHeading, responseOutsideMoscowPanel);
 
     }
 

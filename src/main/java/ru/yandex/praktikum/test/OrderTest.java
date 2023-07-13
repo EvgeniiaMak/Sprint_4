@@ -19,106 +19,108 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class OrderTest {
-    private WebDriver driver;
+import static org.junit.Assert.assertTrue;
 
+public class OrderTest extends AbstractTest {
+    private static final String QA_SCOOTER_URL = "https://qa-scooter.praktikum-services.ru/";
 
-    @Before
-    public void startUp() {
-        if ("yandex".equals(System.getProperty("browser"))) {
-            WebDriverManager.chromedriver().driverVersion(System.getProperty("YaBrowserDriverVersion")).setup();
-            ChromeOptions options = new ChromeOptions();
-            options.setBinary(System.getProperty("YaBrowserLocation"));
-            driver = new ChromeDriver(options);
-        } else if ("firefox".equals(System.getProperty("browser"))) {
-            WebDriverManager.firefoxdriver().setup();
-            FirefoxOptions options = new FirefoxOptions();
-            driver = new FirefoxDriver(options);
-        } else {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver(options);
-        }
-        driver.manage().window().maximize();
-    }
+    private static final String NAME_IVAN = "ИВАН";
+    private static final String LAST_NAME_IVANOV = "ИВАНОВ";
+    private static final String CITY_NAME_MOSCOW = "МОСКВА";
+    private static final String PHONE_NUMBER_FIELD1 = "79876543210";
+    private static final String NAME_ALISA = "АЛИСА";
+    private static final String LAST_NAME_VASNECOVA = "ВАСНЕЦОВА";
+    private static final String CITY_NAME_SPB = "САНКТ-ПЕТЕРБУРГ";
+    private static final String PHONE_NUMBER_FIELD2 = "79999999999";
+    private static final String COLOUR_BLACK = "black";
+    private static final String COLOUR_GREY = "grey";
+    private static final String COMMENT_FIELD1 = "Привет!";
+    private static final String COMMENT_FIELD2 = "Привезите самокат, будьте добры!";
+    private static final String SUCCESS_MODAL_WINDOW_TEXT_EXPECTED = "Заказ оформлен";
+
+    private static final int METRO_DROPDOWN_SIZE = 224;
+
+    private static final int RENTAL_PERIOD_DROPDOWN_SIZE = 6;
+
+    private static final Random random = new Random();
+
+    private static final DateTimeFormatter DATE_FORMATTER_DD_MM_YYYY = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 
     @Test
     public void checkOrderUpperButton() {
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(QA_SCOOTER_URL);
 
         MainPage mainPage = new MainPage(driver);
 
         OrderPage orderPage = new OrderPage(driver);
         ConfirmPage confirmPage = new ConfirmPage(driver);
         SuccessPage successPage = new SuccessPage(driver);
-        Random random = new Random();
 
         mainPage.clickCookieButton();
 
         mainPage.clickTopOrderButton();
 
-        orderPage.fillingNameField("Иван");
-        orderPage.fillingLastNameField("Иванов");
-        orderPage.fillingAddressField("Москва");
-        orderPage.fillingMetroField(random.nextInt(224));
-        orderPage.fillingPhoneNumberField("79876543210");
+        orderPage.fillingNameField(NAME_IVAN);
+        orderPage.fillingLastNameField(LAST_NAME_IVANOV);
+        orderPage.fillingAddressField(CITY_NAME_MOSCOW);
+        orderPage.fillingMetroField(random.nextInt(METRO_DROPDOWN_SIZE));
+        orderPage.fillingPhoneNumberField(PHONE_NUMBER_FIELD1);
 
         orderPage.clickBottomNext();
 
-        orderPage.fillingRentalPeriod(random.nextInt(6));
-        orderPage.fillingCommentField("Привет!");
-        String deliveryDate = LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        orderPage.fillingRentalPeriod(random.nextInt(RENTAL_PERIOD_DROPDOWN_SIZE));
+        orderPage.fillingCommentField(COMMENT_FIELD1);
+        String deliveryDate = LocalDate.now().plusDays(2).format(DATE_FORMATTER_DD_MM_YYYY);
         orderPage.fillingDeliveryDayField(deliveryDate);
-        orderPage.colourChoice("black");
+        orderPage.colourChoice(COLOUR_BLACK);
 
         orderPage.clickOrderButton();
 
         confirmPage.clickButtonYes();
-        successPage.checkOrderIsProcessed();
+        String actual = successPage.getSuccessModalWindowText();
+        assertTrue("упс", actual != null && actual.startsWith(SUCCESS_MODAL_WINDOW_TEXT_EXPECTED));
     }
 
     @Test
     public void checkOrderLowerButton() {
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+
+        driver.get(QA_SCOOTER_URL);
+
 
         MainPage mainPage = new MainPage(driver);
 
         OrderPage orderPage = new OrderPage(driver);
         ConfirmPage confirmPage = new ConfirmPage(driver);
         SuccessPage successPage = new SuccessPage(driver);
-        Random random = new Random();
+
 
         mainPage.clickCookieButton();
 
         mainPage.clickBottomOrderButton();
 
-        orderPage.fillingNameField("Алиса");
-        orderPage.fillingLastNameField("Васнецова");
-        orderPage.fillingAddressField("Санкт-Петербург");
-        orderPage.fillingMetroField(random.nextInt(224));
-        orderPage.fillingPhoneNumberField("79999999999");
+        orderPage.fillingNameField(NAME_ALISA);
+        orderPage.fillingLastNameField(LAST_NAME_VASNECOVA);
+        orderPage.fillingAddressField(CITY_NAME_SPB);
+        orderPage.fillingMetroField(random.nextInt(METRO_DROPDOWN_SIZE));
+        orderPage.fillingPhoneNumberField(PHONE_NUMBER_FIELD2);
 
         orderPage.clickBottomNext();
 
-        orderPage.fillingRentalPeriod(random.nextInt(6));
-        String deliveryDate = LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        orderPage.fillingRentalPeriod(random.nextInt(RENTAL_PERIOD_DROPDOWN_SIZE));
+        String deliveryDate = LocalDate.now().plusDays(2).format(DATE_FORMATTER_DD_MM_YYYY);
         orderPage.fillingDeliveryDayField(deliveryDate);
-        orderPage.colourChoice("grey");
-        orderPage.fillingCommentField("Привезите самокат, будьте добры!");
+        orderPage.colourChoice(COLOUR_GREY);
+        orderPage.fillingCommentField(COMMENT_FIELD2);
 
         orderPage.clickOrderButton();
 
         confirmPage.clickButtonYes();
-        successPage.checkOrderIsProcessed();
+        String actual = successPage.getSuccessModalWindowText();
+        assertTrue("упс", actual != null && actual.startsWith(SUCCESS_MODAL_WINDOW_TEXT_EXPECTED));
     }
 
-    @After
-    public void teardown() {
-        driver.quit();
-    }
 
 }
